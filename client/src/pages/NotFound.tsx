@@ -1,5 +1,7 @@
+import { CookiePreferencesButton } from "@/components/CookieBanner";
+import { hasOptionalTrackers } from "@/lib/tracking";
 import { AlertCircle, Home } from "lucide-react";
-import { useLocation } from "wouter";
+import { Link, useLocation } from "wouter";
 
 export default function NotFound() {
   const [, setLocation] = useLocation();
@@ -37,6 +39,10 @@ export default function NotFound() {
               Go Home
             </button>
           </div>
+          <p className="mt-8 text-sm text-slate-600">
+            <Link href="/privacidade" className="underline">Política de Privacidade</Link>
+            {hasOptionalTrackers() && <CookiePreferencesButton className="ml-4 underline" />}
+          </p>
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@ export type ContactFields = {
   email: string;
   phone: string;
   challenge: string;
+  communications: boolean;
   gotcha: string;
 };
 
@@ -35,6 +36,7 @@ export function mailtoHref(email: string, input: ContactFields): string {
     `E-mail: ${input.email.trim()}`,
     `Telefone: ${input.phone.trim()}`,
     `Mensagem: ${input.challenge.trim() || "—"}`,
+    `Comunicações institucionais: ${input.communications ? "sim" : "não"}`,
   ].join("\n");
   return `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
@@ -50,6 +52,7 @@ export async function postContact(
   body.set("email", input.email.trim());
   body.set("phone", input.phone.trim());
   body.set("challenge", input.challenge.trim());
+  body.set("communications", input.communications ? "sim" : "nao");
   body.set("_subject", "Contato — site Northkeep");
   body.set("_gotcha", "");
 

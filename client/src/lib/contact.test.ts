@@ -15,6 +15,7 @@ const valid: ContactFields = {
   email: "ana@exemplo.com.br",
   phone: "(47) 99999-0000",
   challenge: "Quero entender o ONE e o NK Action.",
+  communications: false,
   gotcha: "",
 };
 
@@ -26,6 +27,10 @@ describe("validateContact", () => {
   it("rejects an invalid email and a short phone", () => {
     expect(validateContact({ ...valid, email: "ana" })).toMatch(/e-mail/i);
     expect(validateContact({ ...valid, phone: "123" })).toMatch(/telefone/i);
+  });
+
+  it("accepts the lead when the communications checkbox stays unchecked", () => {
+    expect(validateContact({ ...valid, communications: false })).toBeNull();
   });
 });
 

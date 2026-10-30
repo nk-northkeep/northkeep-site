@@ -1,8 +1,10 @@
+import { CookiePreferencesButton } from "@/components/CookieBanner";
 import { isHoneypotTripped, mailtoHref, postContact, validateContact } from "@/lib/contact";
 import { contactEmail, formEndpoint, links, publicAsset } from "@/lib/site";
-import { trackGenerateLead } from "@/lib/tracking";
+import { hasOptionalTrackers, trackGenerateLead } from "@/lib/tracking";
 import { ArrowRight, CheckSquare, ClipboardCheck, Database, LineChart, Loader2, Mail, Menu, MessageCircle, Phone, TrendingUp, Users, X, AlertCircle } from "lucide-react";
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
+import { Link } from "wouter";
 
 const emptyForm = {
   name: "",
@@ -23,6 +25,7 @@ export default function Home() {
   const [blurAmount, setBlurAmount] = useState(0);
   const [formData, setFormData] = useState(emptyForm);
   const [gotcha, setGotcha] = useState("");
+  const [communications, setCommunications] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formMessage, setFormMessage] = useState<"ok" | "error" | null>(null);
 
@@ -33,7 +36,7 @@ export default function Home() {
 
   const handleFormSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const fields = { ...formData, gotcha };
+    const fields = { ...formData, gotcha, communications };
     if (validateContact(fields)) {
       setFormMessage("error");
       return;
@@ -604,6 +607,17 @@ export default function Home() {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#2B7A8E]"
               />
 
+              <label className="flex items-start gap-3 text-sm text-gray-700">
+                <input
+                  className="mt-1 size-4 accent-[#2B7A8E]"
+                  type="checkbox"
+                  name="communications"
+                  checked={communications}
+                  onChange={(event) => setCommunications(event.target.checked)}
+                />
+                <span>Quero receber comunicações institucionais da Northkeep.</span>
+              </label>
+
               <div className="hidden" aria-hidden="true">
                 <label>
                   Não preencha
@@ -634,6 +648,13 @@ export default function Home() {
                   </>
                 )}
               </button>
+              <p className="text-sm text-gray-600">
+                Ao enviar, você concorda com o tratamento dos dados conforme a{" "}
+                <Link href="/privacidade" className="text-[#2B7A8E] underline">
+                  Política de Privacidade
+                </Link>
+                .
+              </p>
             </form>
           </div>
         </div>
@@ -657,6 +678,10 @@ export default function Home() {
                 <li><a href="#para-quem" className="hover:text-white">Para Quem</a></li>
                 <li><a href="#integracao" className="hover:text-white">Integração</a></li>
                 <li><a href="#contato" className="hover:text-white">Contato</a></li>
+                <li><Link href="/privacidade" className="hover:text-white">Política de Privacidade</Link></li>
+                {hasOptionalTrackers() && (
+                  <li><CookiePreferencesButton className="hover:text-white" /></li>
+                )}
               </ul>
             </div>
             <div>

@@ -29,6 +29,17 @@ export const contactPhoneDisplay = "(47) 3150-0001";
 export const contactPhoneTel = "+554731500001";
 export const whatsappUrl = "https://wa.me/554731500001";
 
+export const privacyEmail = "comercial@northkeep.com.br";
+export const privacyUpdated = "30 de outubro de 2026";
+
+export function companyIdentification() {
+  return {
+    legalName: (import.meta.env.VITE_COMPANY_LEGAL_NAME ?? "").trim(),
+    cnpj: (import.meta.env.VITE_COMPANY_CNPJ ?? "").trim(),
+    address: (import.meta.env.VITE_COMPANY_ADDRESS ?? "").trim(),
+  };
+}
+
 export const links = {
   oneLanding: "https://conheca.one.northkeep.com.br/",
   oneApp: "https://one.northkeep.com.br/",

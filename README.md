@@ -46,14 +46,17 @@ São variáveis de repositório do GitHub Actions (**Settings → Secrets and va
 | `VITE_BASE_PATH` | `base` do Vite. Padrão `/northkeep-site/`. No domínio próprio, `/`. |
 | `VITE_FORMSPREE_ENDPOINT` | URL `https://…` do Formspree. Vazia: o formulário abre um `mailto`. |
 | `VITE_CONTACT_EMAIL` | `mailto` do formulário quando o Formspree não está configurado. Vazia: `contato@northkeep.com.br`, o endereço já impresso na página. |
-| `VITE_GA4_ID` | Measurement ID do GA4 (`G-…`). Carrega o gtag. |
-| `VITE_CLARITY_ID` | Projeto Microsoft Clarity. |
-| `VITE_META_PIXEL_ID` | Meta Pixel (só dígitos). |
-| `VITE_LINKEDIN_PARTNER_ID` | LinkedIn Insight Tag (só dígitos). |
+| `VITE_GA4_ID` | Measurement ID do GA4 (`G-…`). O gtag só carrega depois do consentimento analítico. |
+| `VITE_CLARITY_ID` | Projeto Microsoft Clarity. Mesma categoria analítica. |
+| `VITE_META_PIXEL_ID` | Meta Pixel (só dígitos). Só carrega depois do consentimento de marketing. |
+| `VITE_LINKEDIN_PARTNER_ID` | LinkedIn Insight Tag (só dígitos). Mesma categoria de marketing. |
+| `VITE_COMPANY_LEGAL_NAME` | Razão social na política de privacidade. Vazia: o campo não aparece. |
+| `VITE_COMPANY_CNPJ` | CNPJ na política de privacidade. Vazio: o campo não aparece. |
+| `VITE_COMPANY_ADDRESS` | Endereço na política de privacidade. Vazio: o campo não aparece. |
 
-Um envio bem-sucedido para o Formspree dispara o evento GA4 `generate_lead` e o evento Meta `Lead`, se os respectivos IDs estiverem no build. O fallback `mailto` não dispara esses eventos.
+Sem nenhum ID de analytics ou marketing, o aviso de cookies não aparece. Com ID, o script correspondente espera a categoria aceita (analíticos: GA4 e Clarity; marketing: Meta Pixel e LinkedIn). O GA4 usa Consent Mode v2, com armazenamento negado até essa aceitação. Um envio bem-sucedido para o Formspree dispara o evento GA4 `generate_lead` e o evento Meta `Lead` só se essas ferramentas já tiverem sido aceitas. O fallback `mailto` não dispara esses eventos.
 
-O GA4 sobe pelo gtag da própria página, com um `page_view`. Se no futuro houver um GTM neste domínio, não crie outra tag GA4 para o mesmo measurement ID.
+A política fica em `/privacidade` e em `/privacidade.html`. O canal de privacidade e do encarregado é `comercial@northkeep.com.br`.
 
 ## Publicar no GitHub Pages
 

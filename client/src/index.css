@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -123,6 +122,20 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    scroll-behavior: smooth;
+  }
+
+  section[id] {
+    scroll-margin-top: 5.5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', sans-serif;
@@ -240,6 +253,11 @@
   
   .button-primary {
     @apply bg-[#2B7A8E] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#1B4D5C] transition-colors duration-300 inline-flex items-center gap-2;
+  }
+
+  .button-primary:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
   }
   
   .button-secondary {

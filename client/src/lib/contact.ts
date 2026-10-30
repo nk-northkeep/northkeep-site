@@ -4,8 +4,7 @@ export type ContactFields = {
   position: string;
   email: string;
   phone: string;
-  message: string;
-  consent: boolean;
+  challenge: string;
   gotcha: string;
 };
 
@@ -19,9 +18,6 @@ export function validateContact(input: ContactFields): string | null {
   const digits = input.phone.replace(/\D/g, "");
   if (digits.length < 10 || digits.length > 13) {
     return "Informe um telefone com DDD.";
-  }
-  if (!input.consent) {
-    return "Autorize o uso dos dados para retornarmos o contato.";
   }
   return null;
 }
@@ -38,7 +34,7 @@ export function mailtoHref(email: string, input: ContactFields): string {
     `Cargo: ${input.position.trim()}`,
     `E-mail: ${input.email.trim()}`,
     `Telefone: ${input.phone.trim()}`,
-    `Mensagem: ${input.message.trim() || "—"}`,
+    `Mensagem: ${input.challenge.trim() || "—"}`,
   ].join("\n");
   return `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 }
@@ -48,12 +44,12 @@ export async function postContact(
   input: ContactFields
 ): Promise<"ok" | "error"> {
   const body = new FormData();
-  body.set("nome", input.name.trim());
-  body.set("empresa", input.company.trim());
-  body.set("cargo", input.position.trim());
+  body.set("name", input.name.trim());
+  body.set("company", input.company.trim());
+  body.set("position", input.position.trim());
   body.set("email", input.email.trim());
-  body.set("telefone", input.phone.trim());
-  body.set("mensagem", input.message.trim());
+  body.set("phone", input.phone.trim());
+  body.set("challenge", input.challenge.trim());
   body.set("_subject", "Contato — site Northkeep");
   body.set("_gotcha", "");
 

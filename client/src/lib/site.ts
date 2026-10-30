@@ -3,7 +3,7 @@
  * O e-mail padrão abaixo é o único endereço fixo aceito: é o fallback de texto
  * quando VITE_CONTACT_EMAIL não vem no build. Componentes leem `contactEmail()`.
  */
-const DEFAULT_CONTACT_EMAIL = "comercial@northkeep.com.br";
+const DEFAULT_CONTACT_EMAIL = "contato@northkeep.com.br";
 
 export function resolveContactEmail(configured: string | undefined): string {
   const value = (configured ?? "").trim();

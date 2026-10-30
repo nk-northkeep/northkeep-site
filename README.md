@@ -10,6 +10,8 @@ Site estático da [Northkeep](https://www.northkeep.com.br), consultoria de gest
 
 O build é Vite + React e gera só arquivos estáticos. Não há servidor, banco, login nem dependência da plataforma em que o projeto foi gerado.
 
+O texto público fora dos produtos, dos links para os sites dos produtos e do formulário é o da versão importada. Não reescrever hero, rodapé, “20 anos”, faixa de faturamento, CTA “diagnóstico gratuito” nem o e-mail `contato@northkeep.com.br` impresso na página.
+
 ## Rodar localmente
 
 Requer Node 22 e pnpm 10.
@@ -43,7 +45,7 @@ São variáveis de repositório do GitHub Actions (**Settings → Secrets and va
 | --- | --- |
 | `VITE_BASE_PATH` | `base` do Vite. Padrão `/northkeep-site/`. No domínio próprio, `/`. |
 | `VITE_FORMSPREE_ENDPOINT` | URL `https://…` do Formspree. Vazia: o formulário abre um `mailto`. |
-| `VITE_CONTACT_EMAIL` | E-mail exibido e usado no `mailto`. Vazia: `comercial@northkeep.com.br`. |
+| `VITE_CONTACT_EMAIL` | `mailto` do formulário quando o Formspree não está configurado. Vazia: `contato@northkeep.com.br`, o endereço já impresso na página. |
 | `VITE_GA4_ID` | Measurement ID do GA4 (`G-…`). Carrega o gtag. |
 | `VITE_CLARITY_ID` | Projeto Microsoft Clarity. |
 | `VITE_META_PIXEL_ID` | Meta Pixel (só dígitos). |

@@ -59,33 +59,100 @@ function preconnect(href: string) {
   document.head.appendChild(link);
 }
 
-let started = false;
+export type ConsentChoice = { analytics: boolean; marketing: boolean };
 
-export function initTracking() {
-  if (started || typeof document === "undefined") return;
-  started = true;
+export function trackingPlan(
+  ids: { ga?: string; clarity?: string; meta?: string; linkedin?: string },
+  choice: ConsentChoice
+) {
+  return {
+    ga4: choice.analytics ? acceptsGa4(ids.ga) : "",
+    clarity: choice.analytics ? acceptsClarity(ids.clarity) : "",
+    meta: choice.marketing ? acceptsMetaPixel(ids.meta) : "",
+    linkedin: choice.marketing ? acceptsLinkedInPartner(ids.linkedin) : "",
+  };
+}
 
-  const win = window as AnalyticsWindow;
-  const gaId = acceptsGa4(import.meta.env.VITE_GA4_ID);
-  const clarityId = acceptsClarity(import.meta.env.VITE_CLARITY_ID);
-  const pixelId = acceptsMetaPixel(import.meta.env.VITE_META_PIXEL_ID);
-  const linkedInId = acceptsLinkedInPartner(
-    import.meta.env.VITE_LINKEDIN_PARTNER_ID
+export function hasOptionalTrackers(): boolean {
+  const plan = trackingPlan(
+    {
+      ga: import.meta.env.VITE_GA4_ID,
+      clarity: import.meta.env.VITE_CLARITY_ID,
+      meta: import.meta.env.VITE_META_PIXEL_ID,
+      linkedin: import.meta.env.VITE_LINKEDIN_PARTNER_ID,
+    },
+    { analytics: true, marketing: true }
   );
+  return Boolean(plan.ga4 || plan.clarity || plan.meta || plan.linkedin);
+}
 
-  if (gaId) {
-    preconnect("https://www.googletagmanager.com");
-    preconnect("https://www.google-analytics.com");
-    win.dataLayer = win.dataLayer || [];
+function ensureGtag(win: AnalyticsWindow) {
+  win.dataLayer = win.dataLayer || [];
+  if (typeof win.gtag !== "function") {
     win.gtag = function gtag() {
       win.dataLayer?.push(arguments);
     };
-    win.gtag("js", new Date());
-    win.gtag("config", gaId, { anonymize_ip: true });
+  }
+}
+
+let defaultsInstalled = false;
+
+/** Consent Mode v2 com tudo negado, sem baixar o gtag. */
+export function installConsentDefaults() {
+  if (defaultsInstalled || typeof window === "undefined") return;
+  if (!acceptsGa4(import.meta.env.VITE_GA4_ID)) return;
+  defaultsInstalled = true;
+  const win = window as AnalyticsWindow;
+  ensureGtag(win);
+  win.gtag?.("consent", "default", {
+    ad_storage: "denied",
+    ad_user_data: "denied",
+    ad_personalization: "denied",
+    analytics_storage: "denied",
+    functionality_storage: "granted",
+    security_storage: "granted",
+    wait_for_update: 500,
+  });
+}
+
+let loaded = false;
+
+/** Carrega só as ferramentas da categoria aceita. Sem escolha, não carrega nada. */
+export function loadOptionalTracking(choice: ConsentChoice) {
+  if (loaded || typeof document === "undefined") return;
+  loaded = true;
+
+  const win = window as AnalyticsWindow;
+  const plan = trackingPlan(
+    {
+      ga: import.meta.env.VITE_GA4_ID,
+      clarity: import.meta.env.VITE_CLARITY_ID,
+      meta: import.meta.env.VITE_META_PIXEL_ID,
+      linkedin: import.meta.env.VITE_LINKEDIN_PARTNER_ID,
+    },
+    choice
+  );
+
+  if (plan.ga4) {
+    ensureGtag(win);
+    win.gtag?.("consent", "update", {
+      analytics_storage: "granted",
+      ad_storage: choice.marketing ? "granted" : "denied",
+      ad_user_data: choice.marketing ? "granted" : "denied",
+      ad_personalization: choice.marketing ? "granted" : "denied",
+    });
+    preconnect("https://www.googletagmanager.com");
+    preconnect("https://www.google-analytics.com");
+    win.gtag?.("js", new Date());
+    win.gtag?.("config", plan.ga4, { anonymize_ip: true });
     loadScript(
-      `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(gaId)}`
+      `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(plan.ga4)}`
     );
   }
+
+  const clarityId = plan.clarity;
+  const pixelId = plan.meta;
+  const linkedInId = plan.linkedin;
 
   if (clarityId) {
     preconnect("https://www.clarity.ms");

@@ -15,6 +15,7 @@ function spaFallback(): Plugin {
     writeBundle() {
       const index = path.join(outDir, "index.html");
       fs.copyFileSync(index, path.join(outDir, "404.html"));
+      fs.copyFileSync(index, path.join(outDir, "privacidade.html"));
     },
   };
 }

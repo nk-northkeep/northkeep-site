@@ -8,6 +8,9 @@ interface ImportMetaEnv {
   readonly VITE_GA4_ID?: string;
   readonly VITE_META_PIXEL_ID?: string;
   readonly VITE_LINKEDIN_PARTNER_ID?: string;
+  readonly VITE_COMPANY_LEGAL_NAME?: string;
+  readonly VITE_COMPANY_CNPJ?: string;
+  readonly VITE_COMPANY_ADDRESS?: string;
 }
 
 interface ImportMeta {

@@ -44,12 +44,16 @@ jobs:
           VITE_GA4_ID: ${{ vars.VITE_GA4_ID }}
           VITE_META_PIXEL_ID: ${{ vars.VITE_META_PIXEL_ID }}
           VITE_LINKEDIN_PARTNER_ID: ${{ vars.VITE_LINKEDIN_PARTNER_ID }}
+          VITE_COMPANY_LEGAL_NAME: ${{ vars.VITE_COMPANY_LEGAL_NAME }}
+          VITE_COMPANY_CNPJ: ${{ vars.VITE_COMPANY_CNPJ }}
+          VITE_COMPANY_ADDRESS: ${{ vars.VITE_COMPANY_ADDRESS }}
         run: pnpm build
 
       - name: Static output has no Manus leftovers
         run: |
           test -f dist/index.html
           test -f dist/404.html
+          test -f dist/privacidade.html
           if grep -R -i -E "manus\\.computer|manus-analytics|__manus__|vite-plugin-manus" dist; then
             echo "Build ainda referencia a plataforma Manus."
             exit 1

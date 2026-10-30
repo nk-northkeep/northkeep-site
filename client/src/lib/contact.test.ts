@@ -14,8 +14,8 @@ const valid: ContactFields = {
   position: "Diretora",
   email: "ana@exemplo.com.br",
   phone: "(47) 99999-0000",
-  message: "Quero entender o ONE e o NK Action.",
-  consent: true,
+  challenge: "Quero entender o ONE e o NK Action.",
+  communications: false,
   gotcha: "",
 };
 
@@ -24,10 +24,13 @@ describe("validateContact", () => {
     expect(validateContact(valid)).toBeNull();
   });
 
-  it("rejects an invalid email, a short phone and missing consent", () => {
+  it("rejects an invalid email and a short phone", () => {
     expect(validateContact({ ...valid, email: "ana" })).toMatch(/e-mail/i);
     expect(validateContact({ ...valid, phone: "123" })).toMatch(/telefone/i);
-    expect(validateContact({ ...valid, consent: false })).toMatch(/Autorize/i);
+  });
+
+  it("accepts the lead when the communications checkbox stays unchecked", () => {
+    expect(validateContact({ ...valid, communications: false })).toBeNull();
   });
 });
 
@@ -68,20 +71,20 @@ describe("honeypot and mailto fallback", () => {
   });
 
   it("builds a mailto without the honeypot value", () => {
-    const href = mailtoHref("comercial@northkeep.com.br", {
+    const href = mailtoHref("contato@northkeep.com.br", {
       ...valid,
       gotcha: "bot",
     });
-    expect(href.startsWith("mailto:comercial@northkeep.com.br?")).toBe(true);
+    expect(href.startsWith("mailto:contato@northkeep.com.br?")).toBe(true);
     expect(decodeURIComponent(href)).toContain("Ana Souza");
     expect(href).not.toContain("bot");
   });
 });
 
 describe("public config", () => {
-  it("falls back to the commercial mailbox and ignores a non-https form endpoint", () => {
-    expect(resolveContactEmail(undefined)).toBe("comercial@northkeep.com.br");
-    expect(resolveContactEmail("  ")).toBe("comercial@northkeep.com.br");
+  it("falls back to the address shown on the page and ignores a non-https form endpoint", () => {
+    expect(resolveContactEmail(undefined)).toBe("contato@northkeep.com.br");
+    expect(resolveContactEmail("  ")).toBe("contato@northkeep.com.br");
     expect(resolveContactEmail("ola@northkeep.com.br")).toBe(
       "ola@northkeep.com.br"
     );

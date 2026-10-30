@@ -46,7 +46,6 @@ export const links = {
   action: "https://action.northkeep.com.br/",
   actionPlans: "https://action.northkeep.com.br/#planos",
   actionTrial: "https://action.northkeep.com.br/register",
-  diagnostico: "https://diagnostico.northkeep.com.br/",
 } as const;
 
 export function publicAsset(file: string): string {

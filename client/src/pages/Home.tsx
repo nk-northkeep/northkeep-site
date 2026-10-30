@@ -2,7 +2,7 @@ import { CookiePreferencesButton } from "@/components/CookieBanner";
 import { isHoneypotTripped, mailtoHref, postContact, validateContact } from "@/lib/contact";
 import { contactEmail, formEndpoint, links, publicAsset } from "@/lib/site";
 import { hasOptionalTrackers, trackGenerateLead } from "@/lib/tracking";
-import { ArrowRight, CheckSquare, ClipboardCheck, Database, LineChart, Loader2, Mail, Menu, MessageCircle, Phone, TrendingUp, Users, X, AlertCircle } from "lucide-react";
+import { ArrowRight, CheckSquare, Database, LineChart, Loader2, Mail, Menu, MessageCircle, Phone, TrendingUp, Users, X, AlertCircle } from "lucide-react";
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { Link } from "wouter";
 
@@ -276,7 +276,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             <div className="p-8 bg-white rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
               <Database className="w-12 h-12 text-[#2B7A8E] mb-4" />
               <h3 className="text-2xl font-bold text-gray-900 mb-2">ONE</h3>
@@ -302,18 +302,6 @@ export default function Home() {
               <div className="flex flex-col gap-2 text-sm font-semibold">
                 <a href={links.oneLanding} target="_blank" rel="noopener noreferrer" className="text-[#2B7A8E] hover:underline">Conhecer o ONE</a>
                 <a href={links.oneApp} target="_blank" rel="noopener noreferrer" className="text-[#2B7A8E] hover:underline">Entrar no ONE</a>
-              </div>
-            </div>
-
-            <div className="p-8 bg-white rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-              <ClipboardCheck className="w-12 h-12 text-[#00A8E8] mb-4" />
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">NK Diagnóstico</h3>
-              <p className="text-sm font-semibold text-[#00A8E8] mb-4">Análise de aderência</p>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Sistema de análise de aderência. O acesso público é a tela de login.
-              </p>
-              <div>
-                <a href={links.diagnostico} target="_blank" rel="noopener noreferrer" className="text-sm font-semibold text-[#2B7A8E] hover:underline">Acessar o NK Diagnóstico</a>
               </div>
             </div>
 
@@ -669,7 +657,6 @@ export default function Home() {
               <ul className="space-y-2 text-sm text-gray-300">
                 <li><a href={links.oneLanding} target="_blank" rel="noopener noreferrer" className="hover:text-white">ONE</a></li>
                 <li><a href={links.action} target="_blank" rel="noopener noreferrer" className="hover:text-white">NK Action</a></li>
-                <li><a href={links.diagnostico} target="_blank" rel="noopener noreferrer" className="hover:text-white">NK Diagnóstico</a></li>
               </ul>
             </div>
             <div>

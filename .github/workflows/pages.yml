@@ -37,7 +37,9 @@ jobs:
 
       - name: Build
         env:
-          VITE_BASE_PATH: ${{ vars.VITE_BASE_PATH || '/northkeep-site/' }}
+          # Raiz de www.northkeep.com.br. Não lê a variável do repositório:
+          # um VITE_BASE_PATH antigo (/northkeep-site/) quebraria o domínio.
+          VITE_BASE_PATH: /
           VITE_FORMSPREE_ENDPOINT: ${{ vars.VITE_FORMSPREE_ENDPOINT }}
           VITE_CONTACT_EMAIL: ${{ vars.VITE_CONTACT_EMAIL }}
           VITE_CLARITY_ID: ${{ vars.VITE_CLARITY_ID }}
@@ -51,6 +53,15 @@ jobs:
           test -f dist/index.html
           test -f dist/404.html
           test -f dist/privacidade.html
+          cmp dist/index.html dist/404.html
+          cmp dist/index.html dist/privacidade.html
+          grep -q 'rel="canonical" href="https://www.northkeep.com.br/"' dist/index.html
+          grep -q 'property="og:url" content="https://www.northkeep.com.br/"' dist/index.html
+          grep -qx 'www.northkeep.com.br' dist/CNAME
+          if grep -q '/northkeep-site/' dist/index.html; then
+            echo "Build ainda usa o subcaminho /northkeep-site/."
+            exit 1
+          fi
           if grep -R -i -E "manus\\.computer|manus-analytics|__manus__|vite-plugin-manus" dist; then
             echo "Build ainda referencia a plataforma Manus."
             exit 1

@@ -1,7 +1,7 @@
-/** Vite `base`. GitHub Pages do repositório usa `/northkeep-site/`; o domínio próprio usa `/`. */
+/** Vite `base`. Vazio = raiz do domínio próprio. A URL antiga do repositório pede `VITE_BASE_PATH=/northkeep-site/`. */
 export function normalizeBase(value: string | undefined | null): string {
   const raw = (value ?? "").trim();
-  if (!raw) return "/northkeep-site/";
+  if (!raw) return "/";
   if (raw === "/") return "/";
   const withLead = raw.startsWith("/") ? raw : `/${raw}`;
   return withLead.endsWith("/") ? withLead : `${withLead}/`;

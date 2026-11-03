@@ -5,6 +5,9 @@
  */
 const DEFAULT_CONTACT_EMAIL = "contato@northkeep.com.br";
 
+/** Origem canônica. O site publicado fica na raiz deste host. */
+export const siteOrigin = "https://www.northkeep.com.br";
+
 export function resolveContactEmail(configured: string | undefined): string {
   const value = (configured ?? "").trim();
   return value || DEFAULT_CONTACT_EMAIL;
@@ -14,11 +17,14 @@ export function contactEmail(): string {
   return resolveContactEmail(import.meta.env.VITE_CONTACT_EMAIL);
 }
 
-/** Endpoint https (Formspree). Vazio = o formulário não faz POST. */
+/** Mesmo formulário Formspree da land do ONE. Um https em `VITE_FORMSPREE_ENDPOINT` substitui. */
+export const defaultFormEndpoint = "https://formspree.io/f/meaazpdb";
+
+/** URL https do POST. Vazio ou inválido mantém `defaultFormEndpoint`. */
 export function resolveFormEndpoint(configured: string | undefined): string {
   const value = (configured ?? "").trim();
-  if (!/^https:\/\/\S+$/i.test(value)) return "";
-  return value;
+  if (/^https:\/\/\S+$/i.test(value)) return value;
+  return defaultFormEndpoint;
 }
 
 export function formEndpoint(): string {

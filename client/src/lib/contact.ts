@@ -1,3 +1,9 @@
+/** Assunto fixo para separar estes leads dos da land do ONE, no mesmo Formspree. */
+export const contactSubject = "Contato — site Northkeep";
+
+/** Campo oculto que marca o formulário de origem. */
+export const contactOrigin = "site-institucional";
+
 export type ContactFields = {
   name: string;
   company: string;
@@ -28,7 +34,6 @@ export function isHoneypotTripped(gotcha: string): boolean {
 }
 
 export function mailtoHref(email: string, input: ContactFields): string {
-  const subject = "Contato — site Northkeep";
   const body = [
     `Nome: ${input.name.trim()}`,
     `Empresa: ${input.company.trim()}`,
@@ -37,8 +42,9 @@ export function mailtoHref(email: string, input: ContactFields): string {
     `Telefone: ${input.phone.trim()}`,
     `Mensagem: ${input.challenge.trim() || "—"}`,
     `Comunicações institucionais: ${input.communications ? "sim" : "não"}`,
+    `Origem: ${contactOrigin}`,
   ].join("\n");
-  return `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  return `mailto:${email}?subject=${encodeURIComponent(contactSubject)}&body=${encodeURIComponent(body)}`;
 }
 
 export async function postContact(
@@ -53,7 +59,8 @@ export async function postContact(
   body.set("phone", input.phone.trim());
   body.set("challenge", input.challenge.trim());
   body.set("communications", input.communications ? "sim" : "nao");
-  body.set("_subject", "Contato — site Northkeep");
+  body.set("origem", contactOrigin);
+  body.set("_subject", contactSubject);
   body.set("_gotcha", "");
 
   try {

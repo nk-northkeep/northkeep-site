@@ -5,6 +5,9 @@
  */
 const DEFAULT_CONTACT_EMAIL = "contato@northkeep.com.br";
 
+/** Origem canônica. O site publicado fica na raiz deste host. */
+export const siteOrigin = "https://www.northkeep.com.br";
+
 export function resolveContactEmail(configured: string | undefined): string {
   const value = (configured ?? "").trim();
   return value || DEFAULT_CONTACT_EMAIL;

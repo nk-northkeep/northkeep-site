@@ -10,7 +10,7 @@ Site estático da [Northkeep](https://www.northkeep.com.br), consultoria de gest
 
 O build é Vite + React e gera só arquivos estáticos. Não há servidor, banco, login nem dependência da plataforma em que o projeto foi gerado.
 
-O texto público fora dos produtos, dos links para os sites dos produtos e do formulário é o da versão importada. Não reescrever hero, rodapé, “20 anos”, faixa de faturamento, CTA “diagnóstico gratuito” nem o e-mail `contato@northkeep.com.br` impresso na página.
+Não reescrever a política de privacidade, os dados de contato, o “+20 anos” nem outros fatos de história da empresa. Não colocar preço nem condição comercial interna. O convite comercial fica aberto: sem piso de porte, faturamento ou segmento.
 
 ## Rodar localmente
 
@@ -21,10 +21,10 @@ pnpm install
 pnpm dev
 ```
 
-Abra `http://localhost:5173/northkeep-site/` — esse é o caminho padrão do GitHub Pages do repositório. Para a raiz:
+Abra `http://localhost:5173/`. O padrão é a raiz, a mesma de `www.northkeep.com.br`. Para a URL antiga do repositório:
 
 ```bash
-VITE_BASE_PATH=/ pnpm dev
+VITE_BASE_PATH=/northkeep-site/ pnpm dev
 ```
 
 ```bash
@@ -33,7 +33,7 @@ pnpm build
 pnpm preview
 ```
 
-O preview também usa o `base` do build. Com o padrão, a URL é `http://localhost:4173/northkeep-site/`.
+O preview também usa o `base` do build. Com o padrão, a URL é `http://localhost:4173/`.
 
 Copie `.env.example` para `.env.local` se quiser simular formulário ou analytics. `.env.local` não entra no git.
 
@@ -43,7 +43,7 @@ São variáveis de repositório do GitHub Actions (**Settings → Secrets and va
 
 | Variável | Efeito |
 | --- | --- |
-| `VITE_BASE_PATH` | `base` do Vite. Padrão `/northkeep-site/`. No domínio próprio, `/`. |
+| `VITE_BASE_PATH` | `base` do Vite. Padrão `/`, a raiz de `www.northkeep.com.br`. A URL antiga do repositório usa `/northkeep-site/`. |
 | `VITE_FORMSPREE_ENDPOINT` | URL `https://…` do Formspree. Vazia: o formulário abre um `mailto`. |
 | `VITE_CONTACT_EMAIL` | `mailto` do formulário quando o Formspree não está configurado. Vazia: `contato@northkeep.com.br`, o endereço já impresso na página. |
 | `VITE_GA4_ID` | Measurement ID do GA4 (`G-…`). O gtag só carrega depois do consentimento analítico. |
@@ -61,20 +61,22 @@ O workflow `.github/workflows/pages.yml` roda em push na `main` (e manualmente).
 
 1. **Settings → Pages → Source = GitHub Actions**.
 2. Preencha as variáveis que forem usadas. Sem elas o site sobe do mesmo jeito: sem analytics e com o contato por e-mail.
-3. A URL temporária é `https://nk-northkeep.github.io/northkeep-site/`.
+3. O workflow faz o build com `VITE_BASE_PATH=/` e publica o artefato com `CNAME`. Depois do DNS, o site responde em `https://www.northkeep.com.br`.
 
-Não há arquivo `CNAME` de propósito. O DNS de `www.northkeep.com.br` só muda depois da aprovação do cutover.
+## Domínio www.northkeep.com.br
 
-## Passar para www.northkeep.com.br
+O repositório já sai pronto para esse host:
 
-Quando o cutover for aprovado:
+1. O workflow define `VITE_BASE_PATH=/`. Os assets ficam na raiz, sem `/northkeep-site/`.
+2. `client/public/CNAME` tem uma linha, `www.northkeep.com.br`. O Vite copia o arquivo para `dist/`.
+3. O build grava `dist/404.html` como cópia de `index.html`. O GitHub Pages entrega esse arquivo quando a rota não existe, e o React abre `/privacidade` no acesso direto. `dist/privacidade.html` cobre o mesmo caminho com extensão.
+4. A canonical e o `og:url` apontam para `https://www.northkeep.com.br/`. Em `/privacidade`, o React troca as duas para `https://www.northkeep.com.br/privacidade`.
 
-1. Crie a variável `VITE_BASE_PATH` com o valor `/` e rode o workflow de novo (ou faça um push em `main`). Sem isso os assets continuam em `/northkeep-site/` e quebram na raiz do domínio.
-2. Adicione um arquivo `CNAME` na raiz do site publicado com uma única linha: `www.northkeep.com.br`. O jeito simples é colocar `client/public/CNAME` (o Vite copia para `dist/`) e publicar de novo.
-3. Em **Settings → Pages**, confirme o custom domain `www.northkeep.com.br` e o HTTPS.
-4. No DNS da zona `northkeep.com.br`, aponte o host para o GitHub Pages e deixe o registro em DNS only (sem proxy), para o GitHub emitir o certificado:
-   - `www` como **CNAME** para `nk-northkeep.github.io`
-   - se o apex `northkeep.com.br` também precisar responder, use os registros **A** `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` e os **AAAA** `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`, ou um redirecionamento do apex para `www`
-5. Só então remova o site antigo do host atual. Enquanto o `CNAME` do GitHub não existir, o domínio continua onde está.
+No DNS da zona `northkeep.com.br`, deixe o registro em DNS only (sem proxy), para o GitHub emitir o certificado:
+
+- `www` como **CNAME** para `nk-northkeep.github.io`
+- se o apex `northkeep.com.br` também precisar responder, use os registros **A** `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153` e os **AAAA** `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`, ou um redirecionamento do apex para `www`
+
+Em **Settings → Pages**, o domínio acompanha o `CNAME` do artefato. Confirme o HTTPS depois que o DNS propagar. Só então desligue o site antigo no host atual.
 
 Preços do NK Action não são copiados aqui. A página de planos é [action.northkeep.com.br/#planos](https://action.northkeep.com.br/#planos).

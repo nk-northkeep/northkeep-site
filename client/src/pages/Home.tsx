@@ -148,7 +148,7 @@ export default function Home() {
                   : "bg-[#2B7A8E] text-white hover:bg-[#1B4D5C]"
               }`}
             >
-              Agendar Diagnóstico <ArrowRight className="ml-2 w-4 h-4" />
+              Pedir Diagnóstico Gratuito <ArrowRight className="ml-2 w-4 h-4" />
             </button>
           </div>
 
@@ -196,7 +196,7 @@ export default function Home() {
                 setMobileMenuOpen(false);
               }}
             >
-              Agendar Diagnóstico
+              Pedir Diagnóstico Gratuito
             </button>
           </div>
         )}
@@ -228,7 +228,7 @@ export default function Home() {
                 className={`${btn} border border-[#2B7A8E] text-[#2B7A8E] hover:bg-[#2B7A8E] hover:text-white`}
                 onClick={() => document.getElementById("contato")?.scrollIntoView({ behavior: "smooth" })}
               >
-                Agendar Diagnóstico
+                Pedir Diagnóstico Gratuito
               </button>
             </div>
           </div>
@@ -352,9 +352,9 @@ export default function Home() {
                 </ul>
               </div>
               <div className="mb-6">
-                <p className="text-sm font-semibold text-gray-900 mb-3">Ideal para:</p>
+                <p className="text-sm font-semibold text-gray-900 mb-3">Para a sua operação:</p>
                 <p className="text-sm text-gray-600">
-                  Indústrias e distribuidores B2B que já têm ERP ou uma base manual. A avaliação de aderência publicada na página do ONE é para empresas com 50 ou mais funcionários.
+                  Quer saber se o ONE faz sentido para a sua operação? Peça a Avaliação de Aderência gratuita, sem compromisso.
                 </p>
               </div>
               <div className="flex flex-col gap-2 text-sm font-semibold">
@@ -383,7 +383,7 @@ export default function Home() {
                 </ul>
               </div>
               <div>
-                <p className="text-sm font-semibold text-gray-900 mb-3">Ideal para:</p>
+                <p className="text-sm font-semibold text-gray-900 mb-3">Quando faz sentido:</p>
                 <p className="text-sm text-gray-600">
                   Empresas cujas reuniões geram decisões sem acompanhamento, com tarefas espalhadas, ou que precisam de clareza sobre responsáveis.
                 </p>
@@ -444,7 +444,7 @@ export default function Home() {
               Para Quem é a Northkeep?
             </h2>
             <p className="text-base text-gray-600">
-              A Northkeep é indicada para empresas que já possuem operação, clientes, equipe e dados, mas ainda têm dificuldade em transformar informações em decisões práticas e decisões em execução acompanhada.
+              Informação que não vira decisão, e decisão que não vira execução, trava a gestão — em empresa de qualquer porte. A Northkeep caminha com você desde o início e busca um resultado que a operação enxerga rápido.
             </p>
           </div>
 
@@ -485,7 +485,7 @@ export default function Home() {
               </div>
 
               <div className="p-6 bg-white rounded-lg border border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Público Ideal:</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">Quem se reconhece aqui:</h3>
                 <ul className="space-y-3 text-gray-600">
                   <li className="flex gap-3">
                     <span className="text-[#2B7A8E] font-bold">•</span>
@@ -501,11 +501,11 @@ export default function Home() {
                   </li>
                   <li className="flex gap-3">
                     <span className="text-[#2B7A8E] font-bold">•</span>
-                    <span>Empresas B2B com operação complexa</span>
+                    <span>Empresas de qualquer porte, quando a operação pede mais clareza do que a planilha entrega</span>
                   </li>
                   <li className="flex gap-3">
                     <span className="text-[#2B7A8E] font-bold">•</span>
-                    <span>Indústrias e Distribuidoras</span>
+                    <span>Indústria, distribuição e outros segmentos</span>
                   </li>
                 </ul>
               </div>
@@ -522,7 +522,7 @@ export default function Home() {
               Pronto para Transformar sua Gestão?
             </h2>
             <p className="text-base text-gray-600 mb-12 text-center">
-              Agende um diagnóstico gratuito e descubra como a Northkeep pode ajudar sua empresa.
+              Peça um diagnóstico gratuito, sem compromisso. A Northkeep caminha com você desde a primeira conversa e aponta um resultado que a gestão pode ver rápido.
             </p>
 
             {/* Contact Info */}
@@ -681,7 +681,7 @@ export default function Home() {
                   </>
                 ) : (
                   <>
-                    Solicitar Diagnóstico
+                    Pedir Diagnóstico Gratuito
                     <ArrowRight className="ml-2 w-5 h-5" />
                   </>
                 )}

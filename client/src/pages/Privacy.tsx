@@ -1,5 +1,5 @@
 import { CookiePreferencesButton } from "@/components/CookieBanner";
-import { companyIdentification, privacyEmail, privacyOfficer, privacyUpdated, publicAsset } from "@/lib/site";
+import { companyIdentification, privacyEmail, privacyOfficer, privacyUpdated, publicAsset, siteOrigin } from "@/lib/site";
 import { Link } from "wouter";
 import { useEffect } from "react";
 
@@ -8,8 +8,17 @@ export default function Privacy() {
 
   useEffect(() => {
     document.title = "Política de Privacidade | Northkeep";
+    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    const ogUrl = document.querySelector<HTMLMetaElement>('meta[property="og:url"]');
+    const prevCanonical = canonical?.href ?? "";
+    const prevOg = ogUrl?.content ?? "";
+    const url = `${siteOrigin}/privacidade`;
+    if (canonical) canonical.href = url;
+    if (ogUrl) ogUrl.content = url;
     return () => {
       document.title = "Northkeep | BI, IA e Indicadores para Performance Comercial";
+      if (canonical) canonical.href = prevCanonical;
+      if (ogUrl) ogUrl.content = prevOg;
     };
   }, []);
 

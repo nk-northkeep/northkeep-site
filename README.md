@@ -50,13 +50,10 @@ São variáveis de repositório do GitHub Actions (**Settings → Secrets and va
 | `VITE_CLARITY_ID` | Projeto Microsoft Clarity. Mesma categoria analítica. |
 | `VITE_META_PIXEL_ID` | Meta Pixel (só dígitos). Só carrega depois do consentimento de marketing. |
 | `VITE_LINKEDIN_PARTNER_ID` | LinkedIn Insight Tag (só dígitos). Mesma categoria de marketing. |
-| `VITE_COMPANY_LEGAL_NAME` | Razão social na política de privacidade. Vazia: o campo não aparece. |
-| `VITE_COMPANY_CNPJ` | CNPJ na política de privacidade. Vazio: o campo não aparece. |
-| `VITE_COMPANY_ADDRESS` | Endereço na política de privacidade. Vazio: o campo não aparece. |
 
 Sem nenhum ID de analytics ou marketing, o aviso de cookies não aparece. Com ID, o script correspondente espera a categoria aceita (analíticos: GA4 e Clarity; marketing: Meta Pixel e LinkedIn). O GA4 usa Consent Mode v2, com armazenamento negado até essa aceitação. Um envio bem-sucedido para o Formspree dispara o evento GA4 `generate_lead` e o evento Meta `Lead` só se essas ferramentas já tiverem sido aceitas. O fallback `mailto` não dispara esses eventos.
 
-A política fica em `/privacidade` e em `/privacidade.html`. O canal de privacidade e do encarregado é `comercial@northkeep.com.br`.
+A política fica em `/privacidade` e em `/privacidade.html`. O canal dos direitos do titular e do encarregado (Stanley Eliel Ulrich) é `privacidade@northkeep.com.br`. A identificação do controlador está em `client/src/lib/site.ts`.
 
 ## Publicar no GitHub Pages
 

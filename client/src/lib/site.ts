@@ -29,6 +29,9 @@ export const contactPhoneDisplay = "(47) 3150-0001";
 export const contactPhoneTel = "+554731500001";
 export const whatsappUrl = "https://wa.me/554731500001";
 
+/** Seção de contato da home. A avaliação de aderência usa este hash, sem URL nova. */
+export const contactAnchor = "#contato";
+
 export const privacyEmail = "comercial@northkeep.com.br";
 export const privacyUpdated = "30 de outubro de 2026";
 

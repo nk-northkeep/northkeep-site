@@ -44,8 +44,8 @@ São variáveis de repositório do GitHub Actions (**Settings → Secrets and va
 | Variável | Efeito |
 | --- | --- |
 | `VITE_BASE_PATH` | `base` do Vite. Padrão `/`, a raiz de `www.northkeep.com.br`. A URL antiga do repositório usa `/northkeep-site/`. |
-| `VITE_FORMSPREE_ENDPOINT` | URL `https://…` do Formspree. Vazia: o formulário abre um `mailto`. |
-| `VITE_CONTACT_EMAIL` | `mailto` do formulário quando o Formspree não está configurado. Vazia: `contato@northkeep.com.br`, o endereço já impresso na página. |
+| `VITE_FORMSPREE_ENDPOINT` | URL `https://…` que substitui o Formspree padrão (`https://formspree.io/f/meaazpdb`, o mesmo da land do ONE). Vazia: o padrão continua. O `mailto` só abre se o POST falhar. |
+| `VITE_CONTACT_EMAIL` | Destino do `mailto` quando o POST falha. Vazia: `contato@northkeep.com.br`, o endereço já impresso na página. |
 | `VITE_GA4_ID` | Measurement ID do GA4 (`G-…`). O gtag só carrega depois do consentimento analítico. |
 | `VITE_CLARITY_ID` | Projeto Microsoft Clarity. Mesma categoria analítica. |
 | `VITE_META_PIXEL_ID` | Meta Pixel (só dígitos). Só carrega depois do consentimento de marketing. |

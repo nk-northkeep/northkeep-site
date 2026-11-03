@@ -6,7 +6,7 @@ import {
   validateContact,
   type ContactFields,
 } from "./contact";
-import { resolveContactEmail, resolveFormEndpoint } from "./site";
+import { defaultFormEndpoint, resolveContactEmail, resolveFormEndpoint } from "./site";
 
 const valid: ContactFields = {
   name: "Ana Souza",
@@ -36,7 +36,13 @@ describe("validateContact", () => {
 
 describe("postContact", () => {
   it("posts the lead fields to the Formspree endpoint", async () => {
-    const calls: Array<{ url: string; email: FormDataEntryValue | null; gotcha: FormDataEntryValue | null }> = [];
+    const calls: Array<{
+      url: string;
+      email: FormDataEntryValue | null;
+      gotcha: FormDataEntryValue | null;
+      subject: FormDataEntryValue | null;
+      origem: FormDataEntryValue | null;
+    }> = [];
     const original = globalThis.fetch;
     globalThis.fetch = (async (url: string, init?: RequestInit) => {
       const body = init?.body as FormData;
@@ -44,20 +50,28 @@ describe("postContact", () => {
         url: String(url),
         email: body.get("email"),
         gotcha: body.get("_gotcha"),
+        subject: body.get("_subject"),
+        origem: body.get("origem"),
       });
       return new Response("{}", { status: 200 });
     }) as typeof fetch;
     try {
-      expect(await postContact("https://formspree.io/f/abc", valid)).toBe("ok");
+      expect(await postContact(defaultFormEndpoint, valid)).toBe("ok");
       expect(calls).toEqual([
         {
-          url: "https://formspree.io/f/abc",
+          url: "https://formspree.io/f/meaazpdb",
           email: "ana@exemplo.com.br",
           gotcha: "",
+          subject: "Contato — site Northkeep",
+          origem: "site-institucional",
         },
       ]);
       globalThis.fetch = (async () => new Response("no", { status: 422 })) as typeof fetch;
-      expect(await postContact("https://formspree.io/f/abc", valid)).toBe("error");
+      expect(await postContact(defaultFormEndpoint, valid)).toBe("error");
+      globalThis.fetch = (async () => {
+        throw new Error("offline");
+      }) as typeof fetch;
+      expect(await postContact(defaultFormEndpoint, valid)).toBe("error");
     } finally {
       globalThis.fetch = original;
     }
@@ -77,6 +91,8 @@ describe("honeypot and mailto fallback", () => {
     });
     expect(href.startsWith("mailto:contato@northkeep.com.br?")).toBe(true);
     expect(decodeURIComponent(href)).toContain("Ana Souza");
+    expect(decodeURIComponent(href)).toContain("Origem: site-institucional");
+    expect(decodeURIComponent(href)).toContain("Contato — site Northkeep");
     expect(href).not.toContain("bot");
   });
 });
@@ -88,8 +104,11 @@ describe("public config", () => {
     expect(resolveContactEmail("ola@northkeep.com.br")).toBe(
       "ola@northkeep.com.br"
     );
-    expect(resolveFormEndpoint(undefined)).toBe("");
-    expect(resolveFormEndpoint("http://formspree.io/f/abc")).toBe("");
+    expect(defaultFormEndpoint).toBe("https://formspree.io/f/meaazpdb");
+    expect(resolveFormEndpoint(undefined)).toBe(defaultFormEndpoint);
+    expect(resolveFormEndpoint("")).toBe(defaultFormEndpoint);
+    expect(resolveFormEndpoint("   ")).toBe(defaultFormEndpoint);
+    expect(resolveFormEndpoint("http://formspree.io/f/abc")).toBe(defaultFormEndpoint);
     expect(resolveFormEndpoint("https://formspree.io/f/abc")).toBe(
       "https://formspree.io/f/abc"
     );

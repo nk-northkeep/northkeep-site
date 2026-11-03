@@ -1,5 +1,5 @@
 import { CookiePreferencesButton } from "@/components/CookieBanner";
-import { isHoneypotTripped, mailtoHref, postContact, validateContact } from "@/lib/contact";
+import { contactOrigin, contactSubject, isHoneypotTripped, mailtoHref, postContact, validateContact } from "@/lib/contact";
 import { contactAnchor, contactEmail, formEndpoint, links, publicAsset } from "@/lib/site";
 import { hasOptionalTrackers, trackGenerateLead } from "@/lib/tracking";
 import { ArrowRight, CheckSquare, Database, LineChart, Loader2, Mail, Menu, MessageCircle, Phone, Scale, Search, TrendingUp, Users, X, Zap, AlertCircle } from "lucide-react";
@@ -45,15 +45,11 @@ export default function Home() {
       setFormMessage("ok");
       return;
     }
-    if (!endpoint) {
-      window.location.href = mailtoHref(contactEmail(), fields);
-      return;
-    }
     setIsSubmitting(true);
-    const result = await postContact(endpoint, fields);
+    const result = endpoint ? await postContact(endpoint, fields) : "error";
     setIsSubmitting(false);
     if (result === "error") {
-      setFormMessage("error");
+      window.location.href = mailtoHref(contactEmail(), fields);
       return;
     }
     trackGenerateLead();
@@ -568,15 +564,6 @@ export default function Home() {
                 Erro ao enviar. Tente novamente.
               </p>
             )}
-            {!endpoint && (
-              <p className="mb-6 text-center text-sm text-gray-600">
-                Se o envio online não estiver ativo, escreva para{" "}
-                <a href={`mailto:${contactEmail()}`} className="text-[#2B7A8E] underline">
-                  {contactEmail()}
-                </a>
-                .
-              </p>
-            )}
             <form
               onSubmit={handleFormSubmit}
               method="post"
@@ -655,6 +642,9 @@ export default function Home() {
                 />
                 <span>Quero receber comunicações institucionais da Northkeep.</span>
               </label>
+
+              <input type="hidden" name="origem" value={contactOrigin} />
+              <input type="hidden" name="_subject" value={contactSubject} />
 
               <div className="hidden" aria-hidden="true">
                 <label>

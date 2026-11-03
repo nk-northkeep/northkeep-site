@@ -1,11 +1,10 @@
 import { CookiePreferencesButton } from "@/components/CookieBanner";
-import { companyIdentification, privacyEmail, privacyUpdated, publicAsset } from "@/lib/site";
+import { companyIdentification, privacyEmail, privacyOfficer, privacyUpdated, publicAsset } from "@/lib/site";
 import { Link } from "wouter";
 import { useEffect } from "react";
 
 export default function Privacy() {
   const company = companyIdentification();
-  const hasIdentity = Boolean(company.legalName || company.cnpj || company.address);
 
   useEffect(() => {
     document.title = "Política de Privacidade | Northkeep";
@@ -30,20 +29,19 @@ export default function Privacy() {
         <p className="text-sm font-semibold uppercase tracking-wide text-[#2B7A8E]">Privacidade e proteção de dados</p>
         <h1 className="mt-3 text-4xl font-bold text-gray-900">Política de Privacidade</h1>
         <p className="mt-6 leading-relaxed">
-          Em cumprimento à Lei n° 13.709/2018 (Lei Geral de Proteção de Dados Pessoais - LGPD), à Lei nº 12.965/2014 (Marco Civil da Internet) e às demais legislações aplicáveis, a <strong>NorthKeep</strong>, pessoa jurídica de direito privado, formaliza este Aviso de Privacidade para dar transparência às atividades de tratamento de dados pessoais realizadas no site institucional (<a className="text-[#2B7A8E] underline" href="https://www.northkeep.com.br/">www.northkeep.com.br</a>), inclusive enquanto ele estiver publicado no endereço temporário do GitHub Pages.
+          Em cumprimento à Lei n° 13.709/2018 (Lei Geral de Proteção de Dados Pessoais - LGPD), à Lei nº 12.965/2014 (Marco Civil da Internet) e às demais legislações aplicáveis, a <strong>{company.legalName}</strong>, nome fantasia {company.tradeName}, formaliza este Aviso de Privacidade para dar transparência às atividades de tratamento de dados pessoais realizadas no site institucional (<a className="text-[#2B7A8E] underline" href="https://www.northkeep.com.br/">www.northkeep.com.br</a>), inclusive enquanto ele estiver publicado no endereço temporário do GitHub Pages.
         </p>
         <p className="mt-4"><strong>Cuidamos da sua segurança para que você possa se concentrar no que realmente importa.</strong></p>
         <p><strong>A sua privacidade é nosso compromisso.</strong></p>
 
         <h2 className="mt-10 text-2xl font-bold text-gray-900">Controlador</h2>
         <p className="mt-3">A NorthKeep é a controladora dos dados pessoais tratados neste site.</p>
-        {hasIdentity && (
-          <ul className="mt-3 list-disc space-y-1 pl-5">
-            {company.legalName && <li><strong>Razão social:</strong> {company.legalName}</li>}
-            {company.cnpj && <li><strong>CNPJ:</strong> {company.cnpj}</li>}
-            {company.address && <li><strong>Endereço:</strong> {company.address}</li>}
-          </ul>
-        )}
+        <ul className="mt-3 list-disc space-y-1 pl-5">
+          <li><strong>Razão social:</strong> {company.legalName}</li>
+          <li><strong>Nome fantasia:</strong> {company.tradeName}</li>
+          <li><strong>CNPJ:</strong> {company.cnpj}</li>
+          <li><strong>Endereço:</strong> {company.address}</li>
+        </ul>
 
         <h2 className="mt-10 text-2xl font-bold text-gray-900">1. Definições</h2>
         <p className="mt-3">Para facilitar a leitura deste aviso, seguem alguns conceitos importantes da LGPD:</p>
@@ -200,7 +198,7 @@ export default function Privacy() {
           <a className="text-[#2B7A8E] underline" href={`mailto:${privacyEmail}`}>{privacyEmail}</a>.
         </p>
         <p className="mt-3">
-          Canal do encarregado pelo tratamento de dados pessoais: o mesmo endereço de e-mail acima, até indicação formal de encarregado específico.
+          Canal do encarregado pelo tratamento de dados pessoais ({privacyOfficer}): o mesmo endereço de e-mail acima.
         </p>
         <p className="mt-6"><strong>Última atualização:</strong> {privacyUpdated}.</p>
       </main>

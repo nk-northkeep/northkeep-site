@@ -32,15 +32,20 @@ export const whatsappUrl = "https://wa.me/554731500001";
 /** Seção de contato da home. A avaliação de aderência usa este hash, sem URL nova. */
 export const contactAnchor = "#contato";
 
-export const privacyEmail = "comercial@northkeep.com.br";
-export const privacyUpdated = "30 de outubro de 2026";
+/** Canal dos direitos do titular e do encarregado. Não é o contato comercial. */
+export const privacyEmail = "privacidade@northkeep.com.br";
+export const privacyOfficer = "Stanley Eliel Ulrich";
+export const privacyUpdated = "03/11/2026";
+
+const company = {
+  legalName: "NORTHKEEP CONSULTORIA EM TI LTDA",
+  tradeName: "NORTHKEEP TECNOLOGIA",
+  cnpj: "67.668.767/0001-64",
+  address: "Rua Pais Leme, 215, Conj. 1713, Pinheiros, São Paulo/SP, CEP 05424-150",
+} as const;
 
 export function companyIdentification() {
-  return {
-    legalName: (import.meta.env.VITE_COMPANY_LEGAL_NAME ?? "").trim(),
-    cnpj: (import.meta.env.VITE_COMPANY_CNPJ ?? "").trim(),
-    address: (import.meta.env.VITE_COMPANY_ADDRESS ?? "").trim(),
-  };
+  return company;
 }
 
 export const links = {

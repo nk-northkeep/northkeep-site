@@ -1,8 +1,8 @@
 import { CookiePreferencesButton } from "@/components/CookieBanner";
 import { isHoneypotTripped, mailtoHref, postContact, validateContact } from "@/lib/contact";
-import { contactEmail, formEndpoint, links, publicAsset } from "@/lib/site";
+import { contactAnchor, contactEmail, formEndpoint, links, publicAsset } from "@/lib/site";
 import { hasOptionalTrackers, trackGenerateLead } from "@/lib/tracking";
-import { ArrowRight, CheckSquare, Database, LineChart, Loader2, Mail, Menu, MessageCircle, Phone, TrendingUp, Users, X, AlertCircle } from "lucide-react";
+import { ArrowRight, CheckSquare, Database, LineChart, Loader2, Mail, Menu, MessageCircle, Phone, Scale, Search, TrendingUp, Users, X, Zap, AlertCircle } from "lucide-react";
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { Link } from "wouter";
 
@@ -264,12 +264,70 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Análise de Aderência */}
+      <section id="aderencia" aria-labelledby="aderencia-heading" className="py-20 bg-white border-b border-gray-200">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto mb-16 text-center">
+            <p className="text-sm font-semibold text-[#2B7A8E] mb-4">Análise de Aderência</p>
+            <h2 id="aderencia-heading" className="text-3xl font-bold text-gray-900 mb-6">
+              Antes de oferecer qualquer sistema, entendemos onde a sua operação trava.
+            </h2>
+            <p className="text-base text-gray-600">
+              Investir em ferramenta que não cabe no processo deixa o dado espalhado. Dado espalhado não vira ação: a reunião termina sem responsável e a operação segue do mesmo jeito. A Northkeep caminha com você desde o início e não empurra o que não encaixa.
+            </p>
+          </div>
+
+          <ol className="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto list-none mb-12" role="list">
+            {[
+              {
+                num: "1",
+                icon: Search,
+                title: "Entendemos seu processo e suas dores",
+                desc: "Ouvimos quem vive a rotina e mapeamos o que trava, antes de falar de sistema.",
+              },
+              {
+                num: "2",
+                icon: Scale,
+                title: "Avaliamos a aderência da solução à sua realidade",
+                desc: "Checamos se a solução cabe no seu processo, nos seus dados e no que a equipe consegue sustentar.",
+              },
+              {
+                num: "3",
+                icon: Zap,
+                title: "Recomendamos só o que faz sentido, com foco em resultado rápido",
+                desc: "Se não couber, dizemos. Se couber, indicamos o caminho mais curto até um resultado que a gestão enxerga.",
+              },
+            ].map((step) => (
+              <li key={step.num} className="p-6 bg-gray-50 rounded-lg border border-gray-200">
+                <div className="flex items-center gap-3 mb-4">
+                  <span
+                    className="flex h-12 w-12 items-center justify-center rounded-lg bg-[#2B7A8E] text-white font-bold"
+                    aria-hidden="true"
+                  >
+                    {step.num}
+                  </span>
+                  <step.icon className="w-8 h-8 text-[#2B7A8E]" aria-hidden="true" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">{step.title}</h3>
+                <p className="text-gray-600">{step.desc}</p>
+              </li>
+            ))}
+          </ol>
+
+          <div className="text-center">
+            <a href={contactAnchor} className={`${btn} bg-[#2B7A8E] text-white hover:bg-[#1B4D5C]`}>
+              Solicitar Avaliação de Aderência <ArrowRight className="ml-2 w-4 h-4" />
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Produtos Section */}
       <section id="produtos" className="py-20 bg-gradient-to-b from-gray-50 to-white border-b border-gray-200">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto mb-16 text-center">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
-              Os Três Módulos da Northkeep
+              Módulos da Northkeep
             </h2>
             <p className="text-base text-gray-600">
               Cada módulo pode ser contratado separadamente, mas funcionam melhor juntos.

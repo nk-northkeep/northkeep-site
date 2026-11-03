@@ -507,14 +507,6 @@ export default function Home() {
                     <span className="text-[#2B7A8E] font-bold">•</span>
                     <span>Indústrias e Distribuidoras</span>
                   </li>
-                  <li className="flex gap-3">
-                    <span className="text-[#2B7A8E] font-bold">•</span>
-                    <span>Empresas com 50+ colaboradores</span>
-                  </li>
-                  <li className="flex gap-3">
-                    <span className="text-[#2B7A8E] font-bold">•</span>
-                    <span>Faturamento de R$ 5M a R$ 500M+</span>
-                  </li>
                 </ul>
               </div>
             </div>
